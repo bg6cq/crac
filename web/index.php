@@ -19,7 +19,22 @@ CRAC操作证书查询, 数据来源于 <a href=http://www.crac.org.cn/?page_id=1682>http:/
 
 $str = $_REQUEST["str"];
 if( $str == "" ) {
-	echo "请输入查询关键词";
+	echo "请输入查询关键词<p>";
+	$q = "select tm, count from count order by tm desc limit 30";
+	$stmt=$mysqli->prepare($q);
+	$stmt->execute();
+	$stmt->bind_result($tm,$count);
+	echo "数据库中证书信息数量";
+	echo "<table border=1 cellspacing=0>";
+	echo "<tr><th>时间</th><th>数据条目</th></tr>\n";
+	$stmt->store_result();	
+	while($stmt->fetch()) {
+		echo "<tr><td>".$tm."</td>";
+		echo "<td>".$count."</td>";
+		echo "</tr>\n";
+	}
+	$stmt->close();
+	echo "</table>";
 } else {
 	$str = "%".$str."%";
 	$q = "select * from crac where name like ? or bianhao like ? limit 1000";
@@ -29,7 +44,7 @@ if( $str == "" ) {
 	$stmt->bind_result($id,$name,$sex,$class,$bianhao,$tgrq,$dd,$hfrq,$hfjg);
 	echo "查询结果";
 	echo "<table border=1 cellspacing=0>";
-	echo "<tr><th>身份ID</th><th>姓名</th><th>性别</th><th>操作类型</th><th>证书编号</th><th>通过日期</th><th>通过地点</th><th>核发日期</th><th>核发机构</th>\n";
+	echo "<tr><th>身份ID</th><th>姓名</th><th>性别</th><th>操作类型</th><th>证书编号</th><th>通过日期</th><th>通过地点</th><th>核发日期</th><th>核发机构</th</tr>>\n";
 	$stmt->store_result();	
 	while($stmt->fetch()) {
 		echo "<tr><td>".$id."</td>";

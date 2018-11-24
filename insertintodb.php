@@ -2,6 +2,7 @@
 
 	include "web/db.php";
 
+	echo "process ";
 	echo $argv[1];
 	echo "\n";
 
@@ -21,4 +22,9 @@
         	$stmt->execute();
         	$stmt->close();
 	}
+
+	$q = "replace into count select now(), count(*) from crac";
+       	$stmt = $mysqli->prepare($q);
+       	$stmt->execute();
+       	$stmt->close();
 ?>

@@ -1,0 +1,22 @@
+#!/bin/bash
+
+cd /usr/src/crac
+
+curl  http://www.crac.org.cn/?attachment_id=5166 | grep csv | grep title | sed -e "s/.*href=\"//" | cut -f1 -d\" > n1
+curl  http://www.crac.org.cn/?attachment_id=5167 | grep csv | grep title | sed -e "s/.*href=\"//" | cut -f1 -d\" > n2
+curl  http://www.crac.org.cn/?attachment_id=5168 | grep csv | grep title | sed -e "s/.*href=\"//" | cut -f1 -d\" > n3
+curl  http://www.crac.org.cn/?attachment_id=5169 | grep csv | grep title | sed -e "s/.*href=\"//" | cut -f1 -d\" > n4
+curl  http://www.crac.org.cn/?attachment_id=5170 | grep csv | grep title | sed -e "s/.*href=\"//" | cut -f1 -d\" > n5
+
+wget -O t1 `cat n1`
+wget -O t2 `cat n2`
+wget -O t3 `cat n3`
+wget -O t4 `cat n4`
+wget -O t5 `cat n5`
+
+php insertintodb.php t1
+php insertintodb.php t2
+php insertintodb.php t3
+php insertintodb.php t4
+php insertintodb.php t5
+
